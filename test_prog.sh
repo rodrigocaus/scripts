@@ -13,8 +13,7 @@ GREEN='\e[1;32m'
 NC='\e[0m'
 
 #Starts interaction
-echo "Nome do programa: "
-read NAME
+read -p "Nome do programa: " NAME
 
 #Compile program
 gcc -std=c11 -pedantic -Wall *.c -o $NAME
@@ -23,23 +22,22 @@ then
 	echo -e "${RED}Erro de compilação!${NC}"
 else
 	#Ask's if you want to test
-	echo "Testar arquivos?(s/n)"
-	read ANSW
-	if((($ANSW == 's') || ($ANSW == 'S')));
+	read -p "Testar arquivos?(s/n) " ANSW
+	if [ $ANSW == 's' ]||[ $ANSW == 'S' ];
 	then
 		clear
 		echo "******************************"
 		for ARQ in $(ls *.in);
 		do
-			timeout 1 ./$NAME <$ARQ >saida.out
+			timeout 0.5 ./$NAME <$ARQ >saida.out
 			ERROR="$?"
-			if(($ERROR == 139));
+			if(($ERROR==139));
 			then
 				#It detects segmentation fault
 				echo -e "${RED}Falha de Segmentação!${NC}"
 				echo "******************************"
 				printf "\n"
-			elif ((($ERROR == 124) || ($ERROR == 125)));
+			elif (($ERROR == 124))||(($ERROR == 125));
 			then
 				#Problems with execution time (>1s)
 				echo -e "${RED}Tempo limite excedido!${NC}"
@@ -61,5 +59,7 @@ else
 			fi
 		done
 		rm "saida.out"
+	else
+		echo "ok..."
 	fi
 fi
