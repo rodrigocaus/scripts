@@ -39,7 +39,7 @@ else
 				printf "\n"
 			elif (($ERROR == 124))||(($ERROR == 125));
 			then
-				#Problems with execution time (>1s)
+				#Problems with execution time (>.5s)
 				echo -e "${RED}Tempo limite excedido!${NC}"
 				echo "******************************"
 				printf "\n"
